@@ -23,7 +23,4 @@ pnpm-debug.log*
 *.sw?
 # Cursor
 .cursorrules
-
 study.md
-.github/workflows
-docker-publish.yml
