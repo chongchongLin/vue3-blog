@@ -9,7 +9,7 @@ on:
 
 # 环境变量
 env:
-  IMAGE_NAME: vue3-blog-backend  # 镜像名称
+  IMAGE_NAME: waiterl/vue3-blog-backend  # 修改为完整的镜像名称
   DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}  # 修改这里
 
 jobs:
@@ -44,8 +44,8 @@ jobs:
         context: ./backend  # 指定 Dockerfile 所在目录
         push: true
         tags: |
-          ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
-          ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+          ${{ env.IMAGE_NAME }}:latest
+          ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
 
     # 部署到服务器
     - name: Deploy to server
