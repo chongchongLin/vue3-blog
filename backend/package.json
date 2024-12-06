@@ -1,0 +1,13 @@
+{
+  "name": "vue3-blog-backend",
+  "version": "1.0.0",
+  "description": "Backend for Vue3 Blog",
+  "main": "service/server.js",
+  "scripts": {
+    "start": "node service/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "cors": "^2.8.5"
+  }
+} 
