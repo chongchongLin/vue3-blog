@@ -63,22 +63,22 @@ jobs:
         username: ${{ secrets.SERVER_USERNAME }}
         key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
-          # 登录到 Docker Hub
-          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          # 登录到阿里云容器镜像服务
+          echo ${{ secrets.ALIYUN_PASSWORD }} | docker login ${{ secrets.ALIYUN_REGISTRY }} -u ${{ secrets.ALIYUN_USERNAME }} --password-stdin
           
           # 拉取最新镜像
-          docker pull ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+          docker pull ${{ env.IMAGE_NAME }}:latest
           
           # 停止并删除旧容器（如果存在）
-          docker stop ${{ env.IMAGE_NAME }} || true
-          docker rm ${{ env.IMAGE_NAME }} || true
+          docker stop vue3-blog-backend || true
+          docker rm vue3-blog-backend || true
           
           # 运行新容器
           docker run -d \
-            --name ${{ env.IMAGE_NAME }} \
+            --name vue3-blog-backend \
             -p 3000:3000 \
             --restart always \
-            ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:latest
           
           # 清理未使用的镜像
           docker image prune -f
