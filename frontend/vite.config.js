@@ -1,25 +1,14 @@
 import { defineConfig } from 'vite'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
-import { injectHtml } from 'vite-plugin-html'
 import dotenv from 'dotenv'
 
 const resolve = (dir) => {
     return path.join(__dirname, './', dir)
 }
 
-// HTML 插件配置
+// 插件配置
 const pluginList = [
-    injectHtml({
-        injectData: {
-            htmlWebpackPlugin: {
-                options: {
-                    isVite: true
-                }
-            },
-            title: '运营管理平台'
-        }
-    }),
     vue()
 ]
 
