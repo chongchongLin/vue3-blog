@@ -108,3 +108,31 @@ $fc:#fff;
 @mixin example {
     // ...
 }
+
+// Hugo-coder 主题变量
+$bg-color: #fafafa;
+$fg-color: #212121;
+$alt-bg-color: #eaeaea;
+$alt-fg-color: #000;
+$link-color: #1565c0;
+
+// 全局样式
+body {
+  font-family: 'Fira Mono', monospace;
+  line-height: 1.725;
+  background-color: $bg-color;
+  color: $fg-color;
+}
+
+// 导航样式
+.navigation {
+  height: 2rem;
+  width: 100%;
+  a {
+    color: $fg-color;
+    font-size: 1.6rem;
+    &:hover {
+      color: $link-color;
+    }
+  }
+}

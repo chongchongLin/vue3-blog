@@ -1,8 +1,18 @@
 <template>
-  <div id="app">
-    <nav-header v-if="route.meta.isHeader"></nav-header>
-    <router-view class="router-view"> </router-view>
-    <web-footer v-if="route.meta.isHeader"></web-footer>
+  <div class="container">
+    <!-- 简约的顶部导航 -->
+    <div class="nav-container">
+      <nav class="navigation">
+        <router-link to="/" class="nav-item">Home</router-link>
+        <router-link to="/toolbox" class="nav-item">Toolbox</router-link>
+        <router-link to="/about" class="nav-item">About</router-link>
+      </nav>
+    </div>
+
+    <!-- 主要内容区 -->
+    <main class="content">
+      <router-view></router-view>
+    </main>
   </div>
 </template>
 
@@ -93,36 +103,68 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@use "@/common/mixin.scss" as *;
-@import "./common/media.css";
-html,
-body {
-  min-width: 320px;
-  min-height: 100%;
-  overflow-x: hidden;
-  background: #f4f5f5;
+<style lang="scss" >
+body{
   margin: 0;
-  // overflow-y: scroll;
+  padding: 0;
 }
-#app {
-  display: flex;
-  flex-direction: column;
-}
-.router-view {
-  width: 100%;
-  min-height: calc(100vh - 70px);
-  // position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: 74px auto;
-  -webkit-overflow-scrolling: touch;
-}
-.el-drawer, .d-area-drawer{
-  overflow: scroll !important;
-}
-.video-js{
-  height: 100% !important;
+.container {
+  min-height: 100vh;
+  background-color: #1d1d1d;
+  color: #ffffff;
 }
 
+.nav-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #ffffff;
+  }
+
+  .navigation {
+    display: flex;
+    gap: 2rem;
+
+    .nav-item {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1rem;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+      position: relative;
+      padding-bottom: 2px;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &.router-link-active {
+        opacity: 1;
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 100%;
+          height: 1px;
+          background-color: #ffffff;
+        }
+      }
+    }
+  }
+}
+
+.content {
+  padding-top: 60px; // 为固定导航留出空间
+}
 </style>
