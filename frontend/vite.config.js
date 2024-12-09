@@ -33,7 +33,7 @@ export default defineConfig({
         preprocessorOptions: {
             scss: {
                 javascriptEnabled: true,
-                additionalData: `@import "@/common/mixin.scss";`
+                additionalData: `@use "@/common/mixin.scss" as *;`
             },
         },
     },

@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $blue: #3190e8;
 $bc: #e4e4e4;
 $fc:#fff;
@@ -101,4 +103,8 @@ $fc:#fff;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
+}
+
+@mixin example {
+    // ...
 }

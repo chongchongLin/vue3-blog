@@ -9,7 +9,7 @@ export default {};
 </script>
 
 <style lang='scss' scoped>
-@import "@/common/mixin.scss";
+@use "@/common/mixin.scss" as *;
 .container {
   @include wh(100%, 50px);
   display: flex;
