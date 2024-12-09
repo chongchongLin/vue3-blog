@@ -62,6 +62,14 @@ const router = createRouter({
       meta: {
         title: "纸牌游戏"
       }
+    },
+    {
+      path: "/resume",
+      name: "resume",
+      component: () => import("@/views/Resume.vue"),
+      meta: {
+        title: "简历"
+      }
     }
   ]
 });
