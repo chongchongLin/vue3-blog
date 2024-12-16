@@ -3,84 +3,119 @@ name: Docker CI/CD
 # 触发条件
 on:
   push:
-    branches: [ main ]  # 改为 main 分支
+    branches: [main] # 改为 main 分支
   pull_request:
-    branches: [ main ]  # 改为 main 分支
+    branches: [main] # 改为 main 分支
 
 # 环境变量
 env:
   IMAGE_NAME: ${{ secrets.ALIYUN_REGISTRY }}/waiterlin/vue3-blog-backend
 
 jobs:
-  build-and-deploy:
+  backend-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-    # 检出代码
-    - name: Checkout repository
-      uses: actions/checkout@v3  # 更新到 v3
+      # 检出代码
+      - name: Checkout repository
+        uses: actions/checkout@v3 # 更新到 v3
 
-    # 设置 Docker Buildx
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2  # 更新到 v2
+      # 设置 Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2 # 更新到 v2
 
-    # 登录到阿里云容器镜像服务
-    - name: Login to Aliyun Container Registry
-      uses: docker/login-action@v2
-      with:
-        registry: ${{ secrets.ALIYUN_REGISTRY }}
-        username: ${{ secrets.ALIYUN_USERNAME }}
-        password: ${{ secrets.ALIYUN_PASSWORD }}
+      # 登录到阿里云容器镜像服务
+      - name: Login to Aliyun Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.ALIYUN_REGISTRY }}
+          username: ${{ secrets.ALIYUN_USERNAME }}
+          password: ${{ secrets.ALIYUN_PASSWORD }}
 
-    # 获取版本号
-    - name: Get version
-      id: version
-      run: echo "VERSION=$(date +'%Y%m%d_%H%M%S')" >> $GITHUB_ENV
+      # 获取版本号
+      - name: Get version
+        id: version
+        run: echo "VERSION=$(date +'%Y%m%d_%H%M%S')" >> $GITHUB_ENV
 
-    # 构建并推送 Docker 镜像
-    - name: Build and push
-      uses: docker/build-push-action@v3  # 更新到 v3
-      with:
-        context: ./backend  # 指定 Dockerfile 所在目录
-        push: true
-        tags: |
-          ${{ env.IMAGE_NAME }}:latest
-          ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
-
-    # 部署到服务器
-    - name: Deploy to server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SERVER_HOST }}
-        username: ${{ secrets.SERVER_USERNAME }}
-        key: ${{ secrets.SERVER_SSH_KEY }}
-        script: |
-          # 登录到阿里云容器镜像服务
-          echo ${{ secrets.ALIYUN_PASSWORD }} | docker login ${{ secrets.ALIYUN_REGISTRY }} -u ${{ secrets.ALIYUN_USERNAME }} --password-stdin
-          
-          # 拉取最新镜像
-          docker pull ${{ env.IMAGE_NAME }}:latest
-          
-          # 停止并删除旧容器
-          docker stop vue3-blog-backend || true
-          docker rm vue3-blog-backend || true
-          
-          # 运行新容器
-          docker run -d \
-            --name vue3-blog-backend \
-            -p 3000:3000 \
-            --restart always \
+      # 构建并推送 Docker 镜像
+      - name: Build and push
+        uses: docker/build-push-action@v3 # 更新到 v3
+        with:
+          context: ./backend # 指定 Dockerfile 所在目录
+          push: true
+          tags: |
             ${{ env.IMAGE_NAME }}:latest
-          
-          # 清理未使用的镜像
-          docker image prune -f
+            ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
 
-    # 部署结果通知
-    - name: Notification
-      if: always()
-      uses: actions/github-script@v6
-      with:
-        script: |
-          const { status, conclusion } = context.job
-          const message = `部署${conclusion === 'success' ? '成功' : '失败'}: ${context.repo.owner}/${context.repo.repo}`
-          console.log(message) 
+      # 部署到服务器
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            # 登录到阿里云容器镜像服务
+            echo ${{ secrets.ALIYUN_PASSWORD }} | docker login ${{ secrets.ALIYUN_REGISTRY }} -u ${{ secrets.ALIYUN_USERNAME }} --password-stdin
+
+            # 拉取最新镜像
+            docker pull ${{ env.IMAGE_NAME }}:latest
+
+            # 停止并删除旧容器
+            docker stop vue3-blog-backend || true
+            docker rm vue3-blog-backend || true
+
+            # 运行新容器
+            docker run -d \
+              --name vue3-blog-backend \
+              -p 3000:3000 \
+              --restart always \
+              ${{ env.IMAGE_NAME }}:latest
+
+            # 清理未使用的镜像
+            docker image prune -f
+
+  frontend-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "21"
+          cache: "npm"
+          cache-dependency-path: "./frontend/package-lock.json"
+
+      - name: Install Dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Build
+        working-directory: ./frontend
+        run: npm run build
+      - name: Deploy to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "frontend/dist/"
+          target: "/var/www/waiterlin.top"
+          strip_components: 2
+  # 统一的部署通知
+  notification:
+    needs: [backend-deploy, frontend-deploy]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Deployment Status
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { status } = context.job
+            const success = status === 'success'
+            const message = `全栈部署${success ? '成功' : '失败'}: ${context.repo.owner}/${context.repo.repo}`
+            console.log(message)

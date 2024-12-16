@@ -3,7 +3,7 @@
     <nav class="navigation">
       <div class="left-nav">
         <router-link to="/" class="nav-item">Home</router-link>
-        <router-link to="/blog" class="nav-item">Blog</router-link>
+        <!-- <router-link to="/blog" class="nav-item">Blog</router-link> -->
         <router-link to="/toolbox" class="nav-item">Toolbox</router-link>
         <router-link to="/resume" class="nav-item">Resume</router-link>
         <router-link to="/about" class="nav-item">About</router-link>
