@@ -16,6 +16,22 @@ const router = createRouter({
       }
     },
     {
+      path: "/blog",
+      name: "blog",
+      component: () => import("@/views/BlogList.vue"),
+      meta: {
+        title: "博客"
+      }
+    },
+    {
+      path: "/blog/:id",
+      name: "blogDetail",
+      component: () => import("@/views/BlogDetail.vue"),
+      meta: {
+        title: "文章详情"
+      }
+    },
+    {
       path: "/toolbox",
       name: "toolbox",
       component: () => import("@/views/Toolbox.vue"),

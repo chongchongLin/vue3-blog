@@ -49,7 +49,6 @@ const tools = [
 
 <style lang="scss" scoped>
 .toolbox {
-  padding: 4rem 2rem;
   min-height: 100vh;
   background-color: #1d1d1d;
 

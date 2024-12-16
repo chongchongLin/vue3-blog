@@ -7,24 +7,18 @@
           <img src="@/assets/imgs/avatar.png" alt="avatar" class="avatar-img">
         </div>
         <h1 class="name">Waiter Lin</h1>
-        <h2 class="title">Robotist</h2>
-        <h3 class="subtitle">Newbie Photographer</h3>
-        <p class="description">(I am actually a humanoid robot)</p>
+        <h2 class="title">Coder</h2>
+        <h3 class="subtitle">Frontend Developer</h3>
+        <p class="description">Welcome to my site.</p>
         
         <div class="social-links">
           <a href="https://github.com/chongchongLin" target="_blank">
             <i class="fab fa-github"></i>
           </a>
-          <a href="#" target="_blank">
-            <i class="fab fa-youtube"></i>
+          <a href="https://juejin.cn/user/729731452385719" target="_blank">
+            <i class="fas fa-book"></i>
           </a>
-          <a href="#" target="_blank">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="#" target="_blank">
-            <i class="fab fa-linkedin"></i>
-          </a>
-          <a href="mailto:your@email.com">
+          <a href="waiterlin9898@gmail.com">
             <i class="fas fa-envelope"></i>
           </a>
         </div>
