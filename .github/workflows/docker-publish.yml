@@ -115,7 +115,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const { status } = context.job
-            const success = status === 'success'
-            const message = `全栈部署${success ? '成功' : '失败'}: ${context.repo.owner}/${context.repo.repo}`
-            console.log(message)
+            const success = '${{ needs.backend-deploy.result }}' === 'success' 
+              && '${{ needs.frontend-deploy.result }}' === 'success';
+            const message = `全栈部署${success ? '成功' : '失败'}: ${context.repo.owner}/${context.repo.repo}`;
+            console.log(message);
