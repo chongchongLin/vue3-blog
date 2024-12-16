@@ -103,7 +103,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "frontend/dist/"
-          target: "/var/www/waiterlin.top"
+          target: "/var/www/waiterlin.top/dist"
           strip_components: 2
   # 统一的部署通知
   notification:
