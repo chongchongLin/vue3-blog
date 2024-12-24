@@ -2,15 +2,20 @@
   <div class="latest-version-container">
     <h2>获取最新版号</h2>
     <div class="content">
-      <el-form :model="formData" label-width="120px">
+      <el-form :model="formData" label-width="120px" class="version-form">
         <el-form-item label="代码存放路径">
-          <el-input v-model="formData.basePath" placeholder="请输入代码存放路径" />
+          <el-input 
+            v-model="formData.basePath" 
+            placeholder="请输入代码存放路径"
+            class="custom-input"
+          />
         </el-form-item>
 
         <el-form-item label="BUILD文件路径">
           <el-input 
             v-model="formData.buildPath" 
             placeholder="请输入BUILD文件相对路径，默认为根目录" 
+            class="custom-input"
           >
             <template #append>BUILD</template>
           </el-input>
@@ -25,6 +30,7 @@
             collapse-tags-tooltip
             placeholder="请选择应用名称" 
             style="width: 100%"
+            class="custom-select"
           >
             <el-option 
               label="全选" 
@@ -45,6 +51,7 @@
             type="primary" 
             @click="handleGetVersions" 
             :loading="loading"
+            class="custom-button"
           >
             获取版本号
           </el-button>
@@ -54,7 +61,7 @@
       <!-- 版本信息展示区域 -->
       <div class="version-container" v-if="logs.length">
         <h3>版本信息</h3>
-        <el-scrollbar height="300px">
+        <el-scrollbar height="300px" class="custom-scrollbar">
           <div 
             v-for="(log, index) in logs" 
             :key="index" 
@@ -179,83 +186,179 @@ const handleGetVersions = async () => {
 <style lang="scss" scoped>
 .latest-version-container {
   max-width: 800px;
-  margin: 60px auto;
-  padding: 20px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: #ffffff;
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
 }
 
 .content {
-  margin-top: 20px;
+  background: linear-gradient(145deg, #2a2a2a, #333333);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.version-form {
+  :deep(.el-form-item__label) {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  :deep(.custom-input) {
+    .el-input__wrapper {
+      background-color: #2d2d2d;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: none;
+
+      &.is-focus {
+        border-color: #409eff;
+      }
+
+      input {
+        color: #ffffff;
+        
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.4);
+        }
+      }
+    }
+  }
+
+  :deep(.custom-select) {
+    .el-input__wrapper {
+      background-color: #2d2d2d;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: none;
+
+      input {
+        color: #ffffff;
+      }
+    }
+  }
+
+  :deep(.custom-button) {
+    background: linear-gradient(145deg, #409eff, #3a8ee6);
+    border: none;
+    padding: 12px 24px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(64, 158, 255, 0.3);
+    }
+  }
 }
 
 .version-container {
-  margin-top: 20px;
-  border: 1px solid #dcdfe6;
-  border-radius: 4px;
-  padding: 10px;
-
+  margin-top: 2rem;
+  background: rgba(45, 45, 45, 0.5);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  
   h3 {
-    margin-bottom: 16px;
-    color: #303133;
+    padding: 1rem;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .custom-scrollbar {
+    padding: 1rem;
   }
 }
 
 .version-item {
-  padding: 8px 12px;
-  margin: 4px 0;
-  border-radius: 4px;
-  font-family: monospace;
+  padding: 0.8rem 1rem;
+  margin: 0.5rem 0;
+  border-radius: 6px;
+  font-family: 'Fira Code', monospace;
+  background: rgba(255, 255, 255, 0.05);
   
   &.info {
     color: #909399;
   }
 
   &.error {
-    color: #f56c6c;
-    background-color: #fef0f0;
+    color: #ff4d4f;
+    background: rgba(255, 77, 79, 0.1);
   }
 
   &.warning {
-    color: #e6a23c;
-    background-color: #fdf6ec;
+    color: #faad14;
+    background: rgba(250, 173, 20, 0.1);
   }
 
   &.version {
-    background-color: #f5f7fa;
+    background: rgba(64, 158, 255, 0.1);
   }
 
   &.success {
-    color: #67c23a;
+    color: #52c41a;
+    background: rgba(82, 196, 26, 0.1);
   }
 
   .version-info {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 1rem;
 
     .app-name {
-      font-weight: bold;
+      font-weight: 600;
       min-width: 80px;
-    }
-
-    .branch {
       color: #409eff;
     }
 
+    .branch {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
     .version {
-      color: #67c23a;
-      font-weight: bold;
+      color: #52c41a;
+      font-weight: 600;
     }
   }
 
   .message {
-    line-height: 1.4;
+    line-height: 1.5;
   }
 }
 
 .tip-text {
-  font-size: 12px;
-  color: #909399;
-  margin-top: 4px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 0.5rem;
   line-height: 1.2;
+}
+
+// 响应式调整
+@media (max-width: 768px) {
+  .latest-version-container {
+    padding: 1rem;
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .content {
+    padding: 1rem;
+  }
+
+  .version-form {
+    :deep(.el-form-item__label) {
+      padding: 0 0 8px;
+      line-height: 1.2;
+    }
+  }
 }
 </style> 

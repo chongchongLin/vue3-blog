@@ -49,7 +49,8 @@ const tools = [
 
 <style lang="scss" scoped>
 .toolbox {
-  min-height: 100vh;
+  padding: 2rem;
+  min-height: calc(100vh - 80px);
   background-color: #1d1d1d;
 
   .title {
@@ -57,13 +58,15 @@ const tools = [
     color: #ffffff;
     margin-bottom: 3rem;
     font-size: 2.5rem;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 
   .tools-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 2rem;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
 
@@ -73,25 +76,74 @@ const tools = [
         flex-direction: column;
         align-items: center;
         padding: 2rem;
-        background-color: #2d2d2d;
-        border-radius: 8px;
+        background: linear-gradient(145deg, #2a2a2a, #333333);
+        border-radius: 12px;
         text-decoration: none;
         color: #ffffff;
-        transition: transform 0.3s ease;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
 
         &:hover {
           transform: translateY(-5px);
-          background-color: #3d3d3d;
+          background: linear-gradient(145deg, #333333, #3a3a3a);
+          box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+          border-color: rgba(255, 255, 255, 0.2);
+
+          i {
+            color: #4a9eff;
+            transform: scale(1.1);
+          }
+
+          span {
+            color: #4a9eff;
+          }
         }
 
         i {
-          font-size: 2rem;
-          margin-bottom: 1rem;
+          font-size: 2.5rem;
+          margin-bottom: 1.5rem;
+          transition: all 0.3s ease;
+          color: rgba(255, 255, 255, 0.9);
         }
 
         span {
-          font-size: 1rem;
+          font-size: 1.1rem;
           text-align: center;
+          font-weight: 500;
+          transition: color 0.3s ease;
+          color: rgba(255, 255, 255, 0.9);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .toolbox {
+    padding: 1rem;
+
+    .title {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .tools-grid {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+
+      .tool-item {
+        a {
+          padding: 1.5rem;
+
+          i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+          }
+
+          span {
+            font-size: 1rem;
+          }
         }
       }
     }
