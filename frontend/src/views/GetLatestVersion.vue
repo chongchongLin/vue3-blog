@@ -104,7 +104,7 @@ const formData = reactive({
   appNames: []
 })
 onMounted(()=>{
-  init()
+  
 })
 const mockAsyncOperation = () => {
   return new Promise((resolve, reject) => {
@@ -113,20 +113,7 @@ const mockAsyncOperation = () => {
     }, 1000)
   })
 }
-const init = async () => {
-  try {
-    loading.value = true
-    throw new Error('初始化失败：模拟的异步错误')
-    await mockAsyncOperation()
-    console.log('初始化成功')
-    // 如果异步操作成功，可以在这里添加其他初始化逻辑
-  } catch (error) {
-    ElMessage.error(error.message)
-    addLog({ message: error.message, type: 'error' })
-  } finally {
-    loading.value = false
-  }
-}
+
 
 
 const addLog = (log) => {

@@ -93,7 +93,9 @@ router.post('/version', async (req, res) => {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     
     const { basePath, buildPath, appNames } = req.body;
-    
+    console.log('basePath:', basePath);
+    console.log('buildPath:', buildPath);
+    console.log('appNames:', appNames);
     try {
         // 确保基础路径存在
         if (!fs.existsSync(basePath)) {
