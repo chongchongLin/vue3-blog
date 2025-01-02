@@ -80,6 +80,14 @@ const router = createRouter({
       }
     },
     {
+      path: "/upload",
+      name: "upload",
+      component: () => import("@/components/Upload.vue"),
+      meta: {
+        title: "图片上传"
+      }
+    },
+    {
       path: "/resume",
       name: "resume",
       component: () => import("@/views/Resume.vue"),

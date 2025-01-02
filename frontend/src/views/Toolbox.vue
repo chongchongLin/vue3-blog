@@ -24,25 +24,30 @@ const tools = [
     path: '/get-latest-version',
     icon: 'fas fa-tags'
   },
+  // {
+  //   name: '宫格切换',
+  //   path: '/grid',
+  //   icon: 'fas fa-th'
+  // },
+  // {
+  //   name: '金铲铲',
+  //   path: '/gold-chan-chan',
+  //   icon: 'fas fa-gamepad'
+  // },
+  // {
+  //   name: '色值转换',
+  //   path: '/color-convert',
+  //   icon: 'fas fa-palette'
+  // },
+  // {
+  //   name: '纸牌游戏',
+  //   path: '/card-game',
+  //   icon: 'fas fa-dice'
+  // },
   {
-    name: '宫格切换',
-    path: '/grid',
-    icon: 'fas fa-th'
-  },
-  {
-    name: '金铲铲',
-    path: '/gold-chan-chan',
-    icon: 'fas fa-gamepad'
-  },
-  {
-    name: '色值转换',
-    path: '/color-convert',
-    icon: 'fas fa-palette'
-  },
-  {
-    name: '纸牌游戏',
-    path: '/card-game',
-    icon: 'fas fa-dice'
+    name: '图片上传',
+    path: '/upload',
+    icon: 'fas fa-upload'
   }
 ];
 </script>
